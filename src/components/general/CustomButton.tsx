@@ -23,6 +23,7 @@ const CustomButton = forwardRef<View, CustomButton>(
     ref
   ) => {
     const tint = color || useThemeColor({}, 'tint');
+    const text = useThemeColor({light: 'white'}, 'text');
 
     return (
       <Pressable
@@ -39,6 +40,7 @@ const CustomButton = forwardRef<View, CustomButton>(
         <Text
           style={[
             styles.buttonText,
+            { color: text },
             type === 'outline' && { color: tint },
             type === 'link' && { color: tint },
           ]}

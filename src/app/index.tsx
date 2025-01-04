@@ -2,8 +2,11 @@ import { Link } from "expo-router";
 import Colors from "../constants/Colors";
 import { Text, View } from "../components/general/Themed";
 import CustomButton from "../components/general/CustomButton";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import WorkoutListItem from "@/components/workouts/WorkoutListItem";
+import workouts from "@/data/dummyWorkouts";
+
+const workout = workouts[0];
 
 export default function Index() {
 
@@ -12,8 +15,15 @@ export default function Index() {
       style={styles.container}
     >
       <CustomButton title="Resume Workout" onPress={() => {}} />
-      <View style={{ height: 20 }} />
-        <WorkoutListItem />
+      <FlatList
+        data={workouts}
+        keyExtractor={item => item.id}
+        contentContainerStyle={{ marginTop: 16, gap: 16 }}
+        renderItem={({ item }) => (
+          <WorkoutListItem workout={item} />
+        )}
+      />
+        
     </View>
   );
 }
@@ -21,6 +31,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 4
+    backgroundColor: undefined,
+    padding: 4,
   },
 })

@@ -10,6 +10,7 @@ import {
 type ThemedProps = {
     lightColor?: string;
     darkColor?: string;
+    enableBackgroundColor?: boolean;
 }
 
 export type ViewProps = ThemedProps & RNView['props'];

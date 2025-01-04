@@ -1,7 +1,7 @@
 type Workout = {
     id: string;
-    createdAt: Date;
-    finishedAt: Date | null;
+    createdAt: Date | string;
+    finishedAt: Date | null | string;
 }
 
 type Exercise = {
@@ -15,5 +15,13 @@ type ExerciseSet = {
     exerciseId: string;
     reps: number;
     weight: number;
-    oneRepMax: number;
+    oneRM?: number;
 }
+
+ type WorkoutWithExercises = Workout & {
+    exercises: ExerciseWithSets[];
+  };
+  
+   type ExerciseWithSets = Exercise & {
+    sets: ExerciseSet[];
+  };

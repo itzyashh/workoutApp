@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import { Text, View } from '@/src/components/general/Themed'
+import { Text, View } from '@/components/general/Themed'
 
 const Page = () => {
   return (
