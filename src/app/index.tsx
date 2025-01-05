@@ -14,7 +14,9 @@ export default function Index() {
     <View
       style={styles.container}
     >
+      <Link href={'/workout/current'} asChild>
       <CustomButton title="Resume Workout" onPress={() => {}} />
+      </Link>
       <FlatList
         data={workouts}
         keyExtractor={item => item.id}

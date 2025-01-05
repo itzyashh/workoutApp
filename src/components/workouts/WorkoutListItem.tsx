@@ -44,7 +44,7 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
 
     console.log(duration)
     return (
-        <Card title={formattedDate} style={{ gap: 8 }}>
+        <Card title={formattedDate} style={{ gap: 8 }} href={`/workout/${workout.id}`}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ fontWeight: 'bold' }}>Exercise</Text>
                 <Text style={{ fontWeight: 'bold' }}>Best Set</Text>
