@@ -5,14 +5,14 @@ import CustomButton from "../components/general/CustomButton";
 import { FlatList, StyleSheet } from "react-native";
 import WorkoutListItem from "@/components/workouts/WorkoutListItem";
 import workouts from "@/data/dummyWorkouts";
+import Screen from "@/components/general/Screen";
 
 const workout = workouts[0];
 
 export default function Index() {
 
   return (
-    <View
-      style={styles.container}
+    <Screen
     >
       <Link href={'/workout/current'} asChild>
       <CustomButton title="Resume Workout" onPress={() => {}} />
@@ -26,7 +26,7 @@ export default function Index() {
         )}
       />
         
-    </View>
+    </Screen>
   );
 }
 

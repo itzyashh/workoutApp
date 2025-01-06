@@ -14,8 +14,8 @@ type ExerciseSet = {
     id: string;
     exerciseId: string;
     reps: number;
-    weight: number;
-    oneRM?: number;
+    weight: number | null;
+    oneRM?: number | null
 }
 
  type WorkoutWithExercises = Workout & {

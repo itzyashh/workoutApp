@@ -1,6 +1,6 @@
 import { DarkTheme } from "@react-navigation/native";
 
-const tintColorLight = '#8A2BE2'; // BlueViolet
+const tintColorLight = '#160725'; // BlueViolet
 const tintColorDark = '#a744fd'; // DarkViolet
 
 
@@ -21,7 +21,7 @@ export default {
     tint: tintColorDark,
     tabIconDefault: '#DDA0DD', // Plum
     tabIconSelected: tintColorDark,
-    textInputBackground: '#483D8B', // DarkSlateBlue
+    textInputBackground: '#181818', // DarkGray
     separator: 'rgba(221, 160, 221, 0.500)', // Plum
   },
 };

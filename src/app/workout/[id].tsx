@@ -8,6 +8,8 @@ import Card from '@/components/general/Card';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Colors from '@/constants/Colors';
+import WorkoutExerciseItem from '@/components/workouts/WorkoutExerciseItem';
+import Screen from '@/components/general/Screen';
 
 dayjs.extend(relativeTime);
 
@@ -25,36 +27,13 @@ const Page = () => {
   const formattedDate = createdAt.format('HH:mm dddd, DD MMM').toString()
 
   return (
-    <View style={styles.container}>
+    <Screen>
 
       <FlatList
         data={workout.exercises}
         keyExtractor={item => item.id}
         contentContainerStyle={{ marginTop: 16, gap: 16 }}
-        renderItem={({ item }) => (
-          <Card title={item.name} key={item.id}>
-            {
-              item.sets.map(set => {
-
-                const bestSet = item.sets.reduce((prev, current) => {
-                  return prev.oneRM > current.oneRM ? prev : current
-                })
-
-                return (
-                <View key={set.id} style={{ 
-                  flexDirection: 'row',
-                  gap: 8,
-                  padding: 8,
-                  backgroundColor: bestSet.id === set.id ? Colors.dark.tint + '50' : undefined,
-                 justifyContent: 'space-between' }}>
-                  <Text>{set.reps} x {set.weight}kg</Text>
-                  <Text>{set.oneRM?.toFixed(2)} kg</Text>
-                </View>
-                )
-              })
-            }
-          </Card>
-        )}
+        renderItem={({ item }) => <WorkoutExerciseItem exercise={item} />}
         ListHeaderComponent={() => (
           <View style={styles.header}>
           <Text style={styles.title} >Workout Details</Text>
@@ -63,7 +42,7 @@ const Page = () => {
         )
         }
       />
-    </View>
+    </Screen>
   )
 }
 
