@@ -1,15 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 type ScreenProps = {
     children: React.ReactNode
 }
 
 const Screen:FC<ScreenProps> = ({ children }) => {
+
+  const headerHeight = useHeaderHeight()
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={headerHeight}
+    style={styles.container}>
         {children}
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
