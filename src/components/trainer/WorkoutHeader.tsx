@@ -1,15 +1,20 @@
 import { StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Text, View } from '../general/Themed'
+import { calculateMinutesAndSeconds } from '@/utils/time'
 
-const WorkoutHeader = () => {
+type WorkoutHeaderProps = {
+    workout: Workout
+}
+const WorkoutHeader:FC<WorkoutHeaderProps> = ({ workout }) => {
 
-    const [timer, setTimer] = useState()
+    const [timer, setTimer] = useState('00:00')
 
     useEffect(() => {
         const interval = setInterval(() => {
+            const duration = calculateMinutesAndSeconds(workout.createdAt, new Date())
             console.log('tick')
-            setTimer(new Date().toLocaleTimeString())
+            setTimer(duration)
         }, 1000)
         return () => clearInterval(interval)
     }

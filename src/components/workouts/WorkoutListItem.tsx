@@ -4,6 +4,7 @@ import { Text, useThemeColor, View } from '@/components/general/Themed'
 import Card from '../general/Card'
 import { Fontisto, MaterialCommunityIcons } from '@expo/vector-icons'
 import dayjs from 'dayjs'
+import { calculateHoursAndMinutes } from '@/utils/time'
 
 type WorkoutListItemProps = {
     workout: WorkoutWithExercises
@@ -26,20 +27,10 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
 
     const calculateDuration = (start: Date | string, end: Date | string | null) => {
 
-        if (!start || !end) {
-            return '00:00';
-            }
 
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        const durationMs = endDate.getTime() - startDate.getTime();
-        const durationMinutes = Math.floor(durationMs / 60000);
-        const hours = Math.floor(durationMinutes / 60);
-        const minutes = durationMinutes % 60;
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
       };
     
-      const duration = calculateDuration(workout.createdAt, workout.finishedAt);
+      const duration = calculateHoursAndMinutes(workout.createdAt, workout.finishedAt);
     
 
     console.log(duration)

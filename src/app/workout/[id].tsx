@@ -24,7 +24,7 @@ const Page = () => {
   }
 
   const createdAt = dayjs(workout.createdAt)
-  const formattedDate = createdAt.format('HH:mm dddd, DD MMM').toString()
+  const formattedDate = dayjs().to(createdAt)
 
   return (
     <Screen>
