@@ -1,9 +1,5 @@
-import { DarkTheme } from "@react-navigation/native";
-
-const tintColorLight = '#160725'; // BlueViolet
-const tintColorDark = '#a744fd'; // DarkViolet
-
-
+const tintColorLight = '#8A2BE2'; // BlueViolet
+const tintColorDark = '#9400D3'; // DarkViolet
 
 export default {
   light: {
@@ -14,6 +10,10 @@ export default {
     tabIconSelected: tintColorLight,
     textInputBackground: '#F8F8FF', // GhostWhite
     separator: 'rgba(216, 191, 216, 0.500)', // Thistle 
+    easy: '#9370DB', // MediumPurple
+    medium: '#BA55D3', // MediumOrchid
+    hard: '#8B008B', // DarkMagenta
+    placeholder: '#D8BFD8', // Thistle
   },
   dark: {
     text: '#E6E6FA', // Lavender
@@ -23,5 +23,9 @@ export default {
     tabIconSelected: tintColorDark,
     textInputBackground: '#181818', // DarkGray
     separator: 'rgba(221, 160, 221, 0.500)', // Plum
+    easy: '#9370DB', // MediumPurple
+    medium: '#BA55D3', // MediumOrchid
+    hard: '#8B008B', // DarkMagenta
+    placeholder: '#DDA0DD', // Plum
   },
 };

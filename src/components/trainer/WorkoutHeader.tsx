@@ -13,7 +13,6 @@ const WorkoutHeader:FC<WorkoutHeaderProps> = ({ workout }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             const duration = calculateMinutesAndSeconds(workout.createdAt, new Date())
-            console.log('tick')
             setTimer(duration)
         }, 1000)
         return () => clearInterval(interval)

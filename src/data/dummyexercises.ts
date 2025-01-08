@@ -1,0 +1,20 @@
+export const dummyExercises = [
+    { id: 1, name: "Chest Press", muscleGroup: "Chest", difficulty: "Beginner", machine: "Seated Chest Press" },
+    { id: 2, name: "Incline Chest Press", muscleGroup: "Chest", difficulty: "Intermediate", machine: "Incline Press Machine" },
+    { id: 3, name: "Pec Deck Fly", muscleGroup: "Chest", difficulty: "Beginner", machine: "Pec Deck Machine" },
+    { id: 4, name: "Lat Pulldown", muscleGroup: "Back", difficulty: "Beginner", machine: "Lat Pulldown" },
+    { id: 5, name: "Seated Row", muscleGroup: "Back", difficulty: "Intermediate", machine: "Seated Row Machine" },
+    { id: 6, name: "Back Extension", muscleGroup: "Back", difficulty: "Beginner", machine: "Back Extension Machine" },
+    { id: 7, name: "Shoulder Press", muscleGroup: "Shoulders", difficulty: "Intermediate", machine: "Shoulder Press" },
+    { id: 8, name: "Lateral Raise", muscleGroup: "Shoulders", difficulty: "Beginner", machine: "Lateral Raise Machine" },
+    { id: 9, name: "Reverse Pec Deck Fly", muscleGroup: "Shoulders", difficulty: "Intermediate", machine: "Reverse Pec Deck Machine" },
+    { id: 10, name: "Bicep Curls", muscleGroup: "Arms", difficulty: "Beginner", machine: "Cable Machine" },
+    { id: 11, name: "Tricep Pushdown", muscleGroup: "Arms", difficulty: "Beginner", machine: "Cable Machine" },
+    { id: 12, name: "Preacher Curl", muscleGroup: "Arms", difficulty: "Intermediate", machine: "Preacher Curl Machine" },
+    { id: 13, name: "Leg Press", muscleGroup: "Legs", difficulty: "Intermediate", machine: "Leg Press" },
+    { id: 14, name: "Leg Extension", muscleGroup: "Legs", difficulty: "Beginner", machine: "Leg Extension Machine" },
+    { id: 15, name: "Leg Curl", muscleGroup: "Legs", difficulty: "Beginner", machine: "Leg Curl Machine" },
+    { id: 16, name: "Ab Crunch", muscleGroup: "Core", difficulty: "Beginner", machine: "Ab Crunch Machine" },
+    { id: 17, name: "Hanging Leg Raise", muscleGroup: "Core", difficulty: "Intermediate", machine: "Roman Chair" },
+    { id: 18, name: "Twisting Torso Machine", muscleGroup: "Core", difficulty: "Beginner", machine: "Torso Rotation Machine" }
+];
