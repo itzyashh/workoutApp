@@ -4,16 +4,17 @@ import { Text, View } from "../components/general/Themed";
 import CustomButton from "../components/general/CustomButton";
 import { FlatList, StyleSheet } from "react-native";
 import WorkoutListItem from "@/components/workouts/WorkoutListItem";
-import workouts from "@/data/dummyWorkouts";
+
 import Screen from "@/components/general/Screen";
 import { useWorkoutStore } from "@/store";
 
-const workout = workouts[0];
+
 
 export default function Index() {
 
   const currentWorkout = useWorkoutStore(state => state.currentWorkout);
   const startWorkout = useWorkoutStore(state => state.startWorkout);
+  const workouts = useWorkoutStore(state => state.workouts);
 
   const handleStartWorkout = () => {
     startWorkout();

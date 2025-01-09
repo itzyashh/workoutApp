@@ -8,18 +8,23 @@ import CustomButton from '@/components/general/CustomButton'
 import WorkoutExerciseItem from '@/components/trainer/WorkoutExerciseItem'
 import WorkoutHeader from '@/components/trainer/WorkoutHeader'
 import workouts from '@/data/dummyWorkouts'
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
 import SelectExerciseModal from '@/components/trainer/SelectExerciseModal'
 import { useWorkoutStore } from '@/store'
 
 const Page = () => {
 
   
-  const currentWorkout = useWorkoutStore(state => state.currentWorkout)
-  const workout = workouts[0]
+
+  const {currentWorkout:workout, finishWorkout} = useWorkoutStore(state => state)
+
+  if (!workout) {
+    console.log('no workout')
+    return <Redirect href="/" />
+  }
 
   const onFinished = () => {
-    console.log('finished')
+    finishWorkout()
   }
 
   return (
