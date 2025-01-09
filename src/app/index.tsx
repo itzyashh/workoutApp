@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import Colors from "../constants/Colors";
 import { Text, View } from "../components/general/Themed";
 import CustomButton from "../components/general/CustomButton";
@@ -6,17 +6,33 @@ import { FlatList, StyleSheet } from "react-native";
 import WorkoutListItem from "@/components/workouts/WorkoutListItem";
 import workouts from "@/data/dummyWorkouts";
 import Screen from "@/components/general/Screen";
+import { useWorkoutStore } from "@/store";
 
 const workout = workouts[0];
 
 export default function Index() {
 
+  const currentWorkout = useWorkoutStore(state => state.currentWorkout);
+  const startWorkout = useWorkoutStore(state => state.startWorkout);
+
+  const handleStartWorkout = () => {
+    startWorkout();
+    router.push('/workout/current');
+  }
+
+
   return (
     <Screen
     >
+
+    {currentWorkout ? (
       <Link href={'/workout/current'} asChild>
       <CustomButton title="Resume Workout" onPress={() => {}} />
-      </Link>
+      </Link>) : (
+        <CustomButton onPress={handleStartWorkout} title="Start New Workout" />
+      )}
+
+
       <FlatList
         data={workouts}
         keyExtractor={item => item.id}

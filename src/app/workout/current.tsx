@@ -10,11 +10,12 @@ import WorkoutHeader from '@/components/trainer/WorkoutHeader'
 import workouts from '@/data/dummyWorkouts'
 import { Stack } from 'expo-router'
 import SelectExerciseModal from '@/components/trainer/SelectExerciseModal'
+import { useWorkoutStore } from '@/store'
 
 const Page = () => {
 
   
-
+  const currentWorkout = useWorkoutStore(state => state.currentWorkout)
   const workout = workouts[0]
 
   const onFinished = () => {
