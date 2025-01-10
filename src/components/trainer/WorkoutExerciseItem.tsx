@@ -7,32 +7,13 @@ import CustomButton from '../general/CustomButton'
 import SetItem from './SetItem'
 
 type WorkoutExerciseItemProps = {
-
+  exercise: ExerciseWithSets
 }
-const sets: ExerciseSet[] = [
-    {
-      id: '1',
-      exerciseId: '1',
-      weight: 10,
-      reps: 10,
-    },
-    {
-      id: '2',
-      exerciseId: '1',
-      weight: 10,
-      reps: 10,
-    },
-    {
-      id: '3',
-      exerciseId: '1',
-      weight: 10,
-      reps: 10,
-    },
-  ]
-const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = () => {
+
+const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
     return (
         <View>
-      <Card title='Exercise'>
+      <Card title={exercise.name} >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={[styles.rowLabel, {textAlign: 'left'}]}>Set</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 25 }}>
@@ -41,7 +22,7 @@ const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = () => {
              </View>
         </View>
         <View style={{ gap: 10 , marginTop: 10}}>
-                     {sets.map((set, i) => <SetItem key={i} index={i} set={set} />)}
+                     {exercise.sets.map((set, i) => <SetItem key={i} index={i} set={set} />)}
         </View>
         <CustomButton
           style={{ marginTop: 10 }}

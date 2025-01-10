@@ -16,11 +16,15 @@ const Page = () => {
 
   
 
-  const {currentWorkout:workout, finishWorkout} = useWorkoutStore(state => state)
+  const {currentWorkout:workout, finishWorkout, addExercise} = useWorkoutStore(state => state)
 
   if (!workout) {
     console.log('no workout')
     return <Redirect href="/" />
+  }
+
+  const onExerciseSelect = (exercise: any) => {
+    addExercise(exercise.name)
   }
 
   const onFinished = () => {
@@ -33,12 +37,12 @@ const Page = () => {
         headerRight: () => <CustomButton title="Finish" onPress={()=>onFinished()} style={{ width: 'auto', padding: 7, borderRadius: 10 }} />,
        }} />
      <FlatList
-        data={[1, 2, 3]}
+        data={workout.exercises}
         contentContainerStyle={{ gap : 10 }}
-        renderItem={() => <WorkoutExerciseItem />}
-        keyExtractor={(item) => item.toString()}
+        renderItem={({item}) => <WorkoutExerciseItem exercise={item}/>}
+        keyExtractor={(item) => item.id}
         ListHeaderComponent={()=><WorkoutHeader workout={workout}/>}
-        ListFooterComponent={()=><SelectExerciseModal />}
+        ListFooterComponent={()=><SelectExerciseModal onExerciseSelect={onExerciseSelect} />}
       />
     </Screen>
   )
