@@ -13,8 +13,8 @@ type Exercise = {
 type ExerciseSet = {
     id: string;
     exerciseId: string;
-    reps: number;
-    weight: number | null;
+    reps?: number;
+    weight?: number | null;
     oneRM?: number | null
 }
 
