@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react'
 import { Text, TextInput, View } from '../general/Themed'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import CustomButton from '../general/CustomButton';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useWorkoutStore } from '@/store';
 
 type SetItemProps = {
@@ -11,6 +12,8 @@ type SetItemProps = {
 }
 
 const SetItem: FC<SetItemProps> = ({ index, set }) => {
+
+    const updateSet = useWorkoutStore().updateSet
 
     const [weight, setWeight] = useState(set?.weight?.toString() || '')
     const [reps, setReps] = useState(set?.reps?.toString() || '')
@@ -27,42 +30,45 @@ const SetItem: FC<SetItemProps> = ({ index, set }) => {
 
     const renderRightActions = () => {
         return (
-            <CustomButton 
-            onPress={() => console.log('delete', set.id)}
-            title='Delete'
-            type='link'
-            style={{ width: 'auto', padding: 5 }}
-            color='crimson'
+            <CustomButton
+                onPress={() => console.log('delete', set.id)}
+                title='Delete'
+                type='link'
+                style={{ width: 'auto', padding: 5 }}
+                color='crimson'
             />
         )
     }
 
     return (
-        <Swipeable
-        renderRightActions={renderRightActions}
-        >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>{index + 1}</Text>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between', gap: 25
-                }}>
-                    <TextInput
-                        value={weight}
-                        style={styles.input}
-                        keyboardType='numeric'
-                        onChangeText={setWeight}
-                        onBlur={() => handleWeightChange(weight)}
-                    />
-                    <TextInput
-                        value={reps}
-                        keyboardType='numeric'
-                        onChangeText={setReps}
-                        onBlur={() => handleRepsChange(reps)}
-                        style={styles.input} />
+        <Animated.View
+            entering={FadeInDown}>
+            <Swipeable
+                renderRightActions={renderRightActions}
+            >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text>{index + 1}</Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between', gap: 25
+                    }}>
+                        <TextInput
+                            value={weight}
+                            style={styles.input}
+                            keyboardType='numeric'
+                            onChangeText={setWeight}
+                            onBlur={() => handleWeightChange(weight)}
+                        />
+                        <TextInput
+                            value={reps}
+                            keyboardType='numeric'
+                            onChangeText={setReps}
+                            onBlur={() => handleRepsChange(reps)}
+                            style={styles.input} />
+                    </View>
                 </View>
-            </View>
-        </Swipeable>
+            </Swipeable>
+        </Animated.View>
     )
 }
 

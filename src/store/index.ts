@@ -1,6 +1,6 @@
-import { create, StateCreator } from 'zustand'
-import { v4 as uuidv4 } from 'uuid';
-import { finishWorkout, newWorkout } from '@/services/workoutService';
+import {create} from 'zustand'
+import * as Crypto from 'expo-crypto';
+import { createWorkout, finishWorkout } from '@/services/workoutService';
 import { createExercise } from '@/services/exerciseService';
 import { immer } from 'zustand/middleware/immer'
 import { createSet, updateSet } from '@/services/setService';
@@ -14,56 +14,68 @@ type State = {
 type Actions = {
     startWorkout: () => void
     finishWorkout: () => void
-
     addExercise: (name: string) => void
     addSet: (exerciseId: string) => void
-    updateSet: (setId: string, updatedFields: Pick<ExerciseSet, 'reps' | 'weight'>) => void
+    updateSet: (setId: string, newChanges: Pick<ExerciseSet, 'reps' | 'weight'>) => void
 }
 
-export const useWorkoutStore = create<State & Actions>()(
-    immer<State & Actions>((set, get) => ({
-        currentWorkout: null,
-        workouts: [],
-        startWorkout: () => set({ currentWorkout: newWorkout() }),
+export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
+    
+    currentWorkout: null,
+    workouts: [],
 
 
-        finishWorkout: () => {
-            const workout = get().currentWorkout
-            if (workout) {
-                const updatedWorkout = finishWorkout(workout)
-                set({ currentWorkout: null })
-                set((state) => void (state.workouts.unshift(updatedWorkout)))
-            }
-        },
+    startWorkout: () => void(set({currentWorkout: createWorkout()})),
 
-        addExercise: (name) => {
-            const { currentWorkout } = get()
+
+    finishWorkout: () => {
+        const {currentWorkout} = get()
+        if (!currentWorkout) return
+        const finishedWorkout: WorkoutWithExercises = finishWorkout(currentWorkout)
+
+        set((state)=> {
+
+            state.currentWorkout = null
+            state.workouts.unshift(finishedWorkout)
+
+        })
+            
+    },
+
+    addExercise: (name: string) => {
+        const {currentWorkout} = get()
+        if (!currentWorkout) return
+
+       const newExercise = createExercise(currentWorkout.id, name)
+
+       set((state)=>{
+        state.currentWorkout && state.currentWorkout.exercises.push(newExercise)
+    })
+    },
+
+    addSet: (exerciseId: string) => {
+        const newSet = createSet(exerciseId)
+        set((state)=>{
+            const exercise = state.currentWorkout?.exercises.find(e => e.id === exerciseId)
+            exercise && exercise.sets.push(newSet)          
+        })
+    },
+
+    updateSet: (setId, newChanges) => {
+        set(({currentWorkout})=>{
             if (!currentWorkout) return
-            const newExercise = createExercise(name, currentWorkout.id)
-            currentWorkout.exercises.push(newExercise)
-            set({ currentWorkout })
-        },
+            const exercise = currentWorkout.exercises.find(e => e.sets.some(s => s.id === setId))
+            if (!exercise) return
+            const setIndex = exercise.sets.findIndex(s => s.id === setId)
 
-        addSet: (exerciseId) => {
-            set(({ currentWorkout }) => {
-                if (!currentWorkout) return
-                const exercise = currentWorkout.exercises.find((e) => e.id === exerciseId)
-                if (!exercise) return
-                const newSet = createSet(exercise.id)
-                exercise.sets.push(newSet)
-            })
-        },
+            if (setIndex === undefined || setIndex === -1) return
 
-        updateSet: (setId, updatedFields) => {
-            set(({ currentWorkout }) => {
-                if (!currentWorkout) return
-                let exercise = currentWorkout.exercises.find((e) => e.sets.find((s) => s.id === setId))
-                if (!exercise) return
-                let set = exercise.sets.find((s) => s.id === setId)
-                if (!set) return
-                set = updateSet(set, updatedFields)
-            })
-        }
-    }))
-)
+            const updatedSet = updateSet(current(exercise.sets[setIndex]), newChanges)
 
+            exercise.sets[setIndex] = updatedSet
+
+        })
+    }
+
+
+})))

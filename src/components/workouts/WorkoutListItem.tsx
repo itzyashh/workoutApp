@@ -33,7 +33,6 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
       const duration = calculateHoursAndMinutes(workout.createdAt, workout.finishedAt);
     
 
-
     return (
         <Card title={formattedDate} style={{ gap: 8 }} href={`/workout/${workout.id}`}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

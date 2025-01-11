@@ -12,10 +12,12 @@ type WorkoutExerciseItemProps = {
 }
 
 const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
-  const {addSet} = useWorkoutStore()
-    return (
+
+  const addSet = useWorkoutStore(state => state.addSet)
+
+  return (
         <View>
-      <Card title={exercise.name} >
+      <Card title={exercise?.name} >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={[styles.rowLabel, {textAlign: 'left'}]}>Set</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 25 }}>
@@ -28,7 +30,7 @@ const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
         </View>
         <CustomButton
           style={{ marginTop: 10 }}
-         type='link' title='+ Add Set' onPress={() => addSet(exercise.id) } />
+         type='link' title='+ Add Set' onPress={() => addSet(exercise.id)} />
       </Card>
       </View>
     )

@@ -1,16 +1,21 @@
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
-export const newWorkout = () => {
+export const createWorkout = () => {
     const newWorkout: WorkoutWithExercises = {
-        id: uuidv4(),
+        id: Crypto.randomUUID(),
         createdAt: new Date(),
         finishedAt: null,
         exercises: []
     }
+
     return newWorkout
 }
 
-export const finishWorkout = (workout: WorkoutWithExercises) => {
-    workout.finishedAt = new Date()
-    return workout
+export const finishWorkout = (currentWorkout: WorkoutWithExercises) => {
+    const finishedWorkout: WorkoutWithExercises = {
+        ...currentWorkout,
+        finishedAt: new Date()
+    }
+
+    return finishedWorkout
 }

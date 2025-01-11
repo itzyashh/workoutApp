@@ -20,6 +20,8 @@ const Page = () => {
   const workouts = useWorkoutStore(state => state.workouts)
   const workout = workouts.find(workout => workout.id === id)
 
+  console.log(JSON.stringify(workout, null, 2))
+
   if (!workout) {
     return <Text>Workout not found</Text>
   }
