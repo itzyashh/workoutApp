@@ -14,7 +14,9 @@ import { useWorkoutStore } from '@/store'
 const Page = () => {
 
   
-  const {currentWorkout, finishWorkout, addExercise} = useWorkoutStore(state => state)
+  const currentWorkout = useWorkoutStore(state => state.currentWorkout)
+  const finishWorkout = useWorkoutStore(state => state.finishWorkout)
+  const addExercise = useWorkoutStore(state => state.addExercise)
   const workout = currentWorkout!
 
   if (!workout) {

@@ -5,13 +5,16 @@ import Colors from '@/constants/Colors'
 import { Text, View } from '../general/Themed'
 import CustomButton from '../general/CustomButton'
 import SetItem from './SetItem'
+import { useWorkoutStore } from '@/store'
 
 type WorkoutExerciseItemProps = {
   exercise: ExerciseWithSets
 }
 
 const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
-  console.log(exercise)
+
+  const addSet = useWorkoutStore(state => state.addSet)
+
   return (
         <View>
       <Card title={exercise?.name} >
@@ -27,7 +30,7 @@ const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
         </View>
         <CustomButton
           style={{ marginTop: 10 }}
-         type='link' title='+ Add Set' onPress={() => console.log('add set')} />
+         type='link' title='+ Add Set' onPress={() => addSet(exercise.id)} />
       </Card>
       </View>
     )

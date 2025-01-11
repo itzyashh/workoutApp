@@ -12,7 +12,9 @@ import { useWorkoutStore } from "@/store";
 
 export default function Index() {
 
-  const {currentWorkout, startWorkout, workouts} = useWorkoutStore(state => state);
+  const currentWorkout = useWorkoutStore(state => state.currentWorkout)
+  const startWorkout = useWorkoutStore(state => state.startWorkout)
+  const workouts = useWorkoutStore(state => state.workouts)
 
 
   const handleStartWorkout = () => {
