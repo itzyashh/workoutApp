@@ -3,13 +3,13 @@ import { FlatList, StyleSheet } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { Text, View } from '@/components/general/Themed'
-import workouts from "@/data/dummyWorkouts";
 import Card from '@/components/general/Card';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Colors from '@/constants/Colors';
 import WorkoutExerciseItem from '@/components/workouts/WorkoutExerciseItem';
 import Screen from '@/components/general/Screen';
+import { useWorkoutStore } from '@/store';
 
 dayjs.extend(relativeTime);
 
@@ -17,6 +17,7 @@ dayjs.extend(relativeTime);
 const Page = () => {
 
   const { id } = useLocalSearchParams()
+  const {workouts} = useWorkoutStore(state => state)
   const workout = workouts.find(workout => workout.id === id)
 
   if (!workout) {

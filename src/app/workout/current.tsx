@@ -7,19 +7,27 @@ import Screen from '@/components/general/Screen'
 import CustomButton from '@/components/general/CustomButton'
 import WorkoutExerciseItem from '@/components/trainer/WorkoutExerciseItem'
 import WorkoutHeader from '@/components/trainer/WorkoutHeader'
-import workouts from '@/data/dummyWorkouts'
-import { Stack } from 'expo-router'
+import { Redirect, router, Stack } from 'expo-router'
 import SelectExerciseModal from '@/components/trainer/SelectExerciseModal'
 import { useWorkoutStore } from '@/store'
 
 const Page = () => {
 
   
-  const currentWorkout = useWorkoutStore(state => state.currentWorkout)
-  const workout = workouts[0]
+  const {currentWorkout, finishWorkout, addExercise} = useWorkoutStore(state => state)
+  const workout = currentWorkout!
+
+  if (!workout) {
+    return <Redirect href="/" />
+  }
 
   const onFinished = () => {
-    console.log('finished')
+    finishWorkout()
+    router.push('/')
+  }
+
+  const onExerciseSelect = (exercise: any) => {
+    addExercise(exercise.name)
   }
 
   return (
@@ -28,12 +36,12 @@ const Page = () => {
         headerRight: () => <CustomButton title="Finish" onPress={()=>onFinished()} style={{ width: 'auto', padding: 7, borderRadius: 10 }} />,
        }} />
      <FlatList
-        data={[1, 2, 3]}
+        data={workout.exercises}
         contentContainerStyle={{ gap : 10 }}
-        renderItem={() => <WorkoutExerciseItem />}
-        keyExtractor={(item) => item.toString()}
+        renderItem={({item}) => <WorkoutExerciseItem exercise={item} />}
+        keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={()=><WorkoutHeader workout={workout}/>}
-        ListFooterComponent={()=><SelectExerciseModal />}
+        ListFooterComponent={()=><SelectExerciseModal onExerciseSelect={onExerciseSelect} />}
       />
     </Screen>
   )
