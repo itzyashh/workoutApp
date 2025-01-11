@@ -4,7 +4,7 @@ import { useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import 'react-native-get-random-values'
+
 
 DarkTheme.colors.primary = Colors.dark.tint
 DefaultTheme.colors.primary = Colors.light.tint

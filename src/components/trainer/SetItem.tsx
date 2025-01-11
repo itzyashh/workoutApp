@@ -13,7 +13,6 @@ type SetItemProps = {
 
 const SetItem: FC<SetItemProps> = ({ index, set }) => {
 
-    const updateSet = useWorkoutStore().updateSet
 
     const [weight, setWeight] = useState(set?.weight?.toString() || '')
     const [reps, setReps] = useState(set?.reps?.toString() || '')
