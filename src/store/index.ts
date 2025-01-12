@@ -17,6 +17,7 @@ type Actions = {
     addExercise: (name: string) => void
     addSet: (exerciseId: string) => void
     updateSet: (setId: string, newChanges: Pick<ExerciseSet, 'reps' | 'weight'>) => void
+    deleteSet: (setId: string) => void
 }
 
 export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
@@ -76,6 +77,24 @@ export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
             exercise.sets[setIndex] = updatedSet
 
         })
+    },
+
+    deleteSet: (setId) => {
+        set(({ currentWorkout }) => {
+            if (!currentWorkout) return;
+            const exercise = currentWorkout.exercises.find(e => e.sets.some(s => s.id === setId));
+            if (!exercise) return;
+            const setIndex = exercise.sets.findIndex(s => s.id === setId);
+
+            if (setIndex === -1) return;
+
+            exercise.sets.splice(setIndex, 1);
+
+            if (exercise.sets.length === 0) {
+                currentWorkout.exercises = currentWorkout.exercises.filter(e => e.id !== exercise.id);
+            }
+
+        });
     }
 
 

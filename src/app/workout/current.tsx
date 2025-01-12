@@ -10,6 +10,7 @@ import WorkoutHeader from '@/components/trainer/WorkoutHeader'
 import { Redirect, router, Stack } from 'expo-router'
 import SelectExerciseModal from '@/components/trainer/SelectExerciseModal'
 import { useWorkoutStore } from '@/store'
+import Animated, { LinearTransition } from 'react-native-reanimated'
 
 const Page = () => {
 
@@ -37,9 +38,10 @@ const Page = () => {
       <Stack.Screen options={{ 
         headerRight: () => <CustomButton title="Finish" onPress={()=>onFinished()} style={{ width: 'auto', padding: 7, borderRadius: 10 }} />,
        }} />
-     <FlatList
+     <Animated.FlatList
         data={workout.exercises}
         contentContainerStyle={{ gap : 10 }}
+        itemLayoutAnimation={LinearTransition}
         renderItem={({item}) => <WorkoutExerciseItem exercise={item} />}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={()=><WorkoutHeader workout={workout}/>}

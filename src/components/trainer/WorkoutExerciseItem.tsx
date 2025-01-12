@@ -6,6 +6,7 @@ import { Text, View } from '../general/Themed'
 import CustomButton from '../general/CustomButton'
 import SetItem from './SetItem'
 import { useWorkoutStore } from '@/store'
+import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
 
 type WorkoutExerciseItemProps = {
   exercise: ExerciseWithSets
@@ -26,7 +27,15 @@ const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
              </View>
         </View>
         <View style={{ gap: 10 , marginTop: 10}}>
-                     {exercise.sets.map((set, i) => <SetItem key={i} index={i} set={set} />)}
+                     {exercise.sets.map((set, i) => (
+                              <Animated.View
+                              key={set.id}
+                              entering={FadeInDown}
+                              >
+                      <SetItem index={i} set={set} />
+                      </Animated.View>
+                    )
+                    )}
         </View>
         <CustomButton
           style={{ marginTop: 10 }}
