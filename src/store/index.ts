@@ -65,6 +65,7 @@ export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
         set(({currentWorkout})=>{
             if (!currentWorkout) return
             const exercise = currentWorkout.exercises.find(e => e.sets.some(s => s.id === setId))
+            console.log('exercise', exercise)
             if (!exercise) return
             const setIndex = exercise.sets.findIndex(s => s.id === setId)
 
