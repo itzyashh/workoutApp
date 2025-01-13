@@ -19,3 +19,11 @@ export const updateSet = (set: ExerciseSet, newChanges: Pick<ExerciseSet, 'reps'
     } 
     return updatedSet
 }
+
+const isSetComplete = (set: ExerciseSet) => {
+    return set.reps && set.reps > 0;
+  };
+
+export const cleanSets = (sets: ExerciseSet[]) => {
+    return sets.filter(isSetComplete)
+}
