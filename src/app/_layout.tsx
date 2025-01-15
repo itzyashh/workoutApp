@@ -4,13 +4,22 @@ import { useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import * as SQLite from "expo-sqlite";
+import { dbName, getDB } from "@/db";
 
 DarkTheme.colors.primary = Colors.dark.tint
 DefaultTheme.colors.primary = Colors.light.tint
 
-export default function RootLayout() {
+const db = SQLite.openDatabaseSync(dbName);
 
+getDB()
+
+// SQLite.deleteDatabaseSync(dbName);
+
+
+export default function RootLayout() {
+  useDrizzleStudio(db)
   const colorScheme = useColorScheme();
   console.log(colorScheme);
 
