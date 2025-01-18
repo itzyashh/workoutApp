@@ -34,3 +34,9 @@ export const cleanupWorkout = (workout: WorkoutWithExercises) => {
       exercises: cleanedExercises,
     };
   };
+
+  export const getCurrentWorkoutWithExercises =
+  async (): Promise<WorkoutWithExercises | null> => {
+  const workout = await getCurrentWorkout();
+  return workout;
+};

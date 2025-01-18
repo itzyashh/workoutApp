@@ -99,3 +99,10 @@ export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
 
 
 })))
+
+
+loadWorkouts: async () => {
+    set({
+      currentWorkout: await getCurrentWorkoutWithExercises(),
+    });
+  },
