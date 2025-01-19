@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import * as Crypto from 'expo-crypto';
-import { createWorkout, finishWorkout } from '@/services/workoutService';
+import { createWorkout, finishWorkout, getCurrentWorkoutWithExercises } from '@/services/workoutService';
 import { createExercise } from '@/services/exerciseService';
 import { immer } from 'zustand/middleware/immer'
 import { createSet, updateSet } from '@/services/setService';
@@ -95,14 +95,13 @@ export const useWorkoutStore = create<State & Actions>()(immer((set, get) => ({
             }
 
         });
-    }
+    },
 
+    loadWorkouts: async () => {
+        set({
+          currentWorkout: await getCurrentWorkoutWithExercises(),
+        });
+      },
 
 })))
 
-
-loadWorkouts: async () => {
-    set({
-      currentWorkout: await getCurrentWorkoutWithExercises(),
-    });
-  },
