@@ -1,5 +1,6 @@
 import * as Crypto from 'expo-crypto';
 import { cleanExercise } from './exerciseService';
+import { saveWorkout } from '@/db/workout';
 
 export const createWorkout = () => {
     const newWorkout: WorkoutWithExercises = {
@@ -8,7 +9,7 @@ export const createWorkout = () => {
         finishedAt: null,
         exercises: []
     }
-
+    saveWorkout(newWorkout)
     return newWorkout
 }
 
@@ -20,7 +21,7 @@ export const finishWorkout = (currentWorkout: WorkoutWithExercises) => {
         ...cleanedWorkout,
         finishedAt: new Date()
     }
-
+    saveWorkout(finishedWorkout)
     return finishedWorkout
 }
 
