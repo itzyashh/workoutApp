@@ -7,18 +7,26 @@ import { StatusBar } from "expo-status-bar";
 import * as SQLite from 'expo-sqlite';
 import { dbName, getDB } from "@/db";
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
+import { useWorkoutStore } from "@/store";
+import { useEffect } from "react";
 
 DarkTheme.colors.primary = Colors.dark.tint
 DefaultTheme.colors.primary = Colors.light.tint
 
 const db = SQLite.openDatabaseSync(dbName)
 // SQLite.deleteDatabaseSync(dbName)
-getDB()
+
 export default function RootLayout() {
 
   const colorScheme = useColorScheme();
   console.log(colorScheme);
   useDrizzleStudio(db);
+  const loadWorkouts = useWorkoutStore(state => state.loadWorkouts)
+
+  useEffect(() => {
+    loadWorkouts()
+  }, [])
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -33,3 +41,4 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   )
 }
+// 

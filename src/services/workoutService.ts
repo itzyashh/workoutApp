@@ -1,6 +1,7 @@
 import * as Crypto from 'expo-crypto';
 import { cleanExercise } from './exerciseService';
-import { saveWorkout } from '@/db/workout';
+import { getCurrentWorkout, getLocalWorkouts, saveWorkout } from '@/db/workout';
+import { getExercises } from '@/db/exercises';
 
 export const createWorkout = () => {
     const newWorkout: WorkoutWithExercises = {
@@ -35,3 +36,33 @@ export const cleanupWorkout = (workout: WorkoutWithExercises) => {
       exercises: cleanedExercises,
     };
   };
+
+export const getCurrentWorkoutWithExercises = async (): Promise<WorkoutWithExercises | null> => {
+  const workout = await getCurrentWorkout()
+  if (!workout) return null
+  const exercises = await getExercises(workout.id)
+  const exercisesWithSets = exercises?.map((exercise) => ({ ...exercise, sets: [] }) as ExerciseWithSets) || []
+  return {
+    ...workout,
+    exercises: exercisesWithSets
+  }
+}
+
+export const getLocalWorkoutsWithExercises = async (): Promise<WorkoutWithExercises[] | null> => {
+  try {
+    const workouts = await getLocalWorkouts()
+    if (!workouts) return null
+    const workoutsWithExercises = await Promise.all(workouts.map(async (workout) => {
+      const exercises = await getExercises(workout.id)
+      const exercisesWithSets = exercises?.map((exercise) => ({ ...exercise, sets: [] }) as ExerciseWithSets) || []
+      return {
+        ...workout,
+        exercises: exercisesWithSets
+      }
+    }))
+    return workoutsWithExercises
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
