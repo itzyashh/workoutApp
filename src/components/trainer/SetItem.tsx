@@ -5,6 +5,7 @@ import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import CustomButton from '../general/CustomButton';
 import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated';
 import { useWorkoutStore } from '@/store';
+import { debounce } from 'lodash';
 
 type SetItemProps = {
     index: number
@@ -20,12 +21,18 @@ const SetItem: FC<SetItemProps> = ({ index, set }) => {
     const updateSet = useWorkoutStore(state => state.updateSet)
     const deleteSet = useWorkoutStore(state => state.deleteSet)
 
+    const debouncedUpdateSet = debounce((id: string, updates: any) => {
+        updateSet(id, updates);
+    }, 300);
+
     const handleWeightChange = (value: string) => {
-        updateSet(set.id, { weight: Number(value) })
+        setWeight(value)
+        debouncedUpdateSet(set.id, { weight: Number(value) });
     }
 
     const handleRepsChange = (value: string) => {
-        updateSet(set.id, { reps: Number(value) })
+        setReps(value)
+        debouncedUpdateSet(set.id, { reps: Number(value) });
     }
 
     const handleDeleteSet = (id: string) => {
@@ -60,14 +67,12 @@ const SetItem: FC<SetItemProps> = ({ index, set }) => {
                             value={weight}
                             style={styles.input}
                             keyboardType='numeric'
-                            onChangeText={setWeight}
-                            onBlur={() => handleWeightChange(weight)}
+                            onChangeText={handleWeightChange}
                         />
                         <TextInput
                             value={reps}
                             keyboardType='numeric'
-                            onChangeText={setReps}
-                            onBlur={() => handleRepsChange(reps)}
+                            onChangeText={handleRepsChange}
                             style={styles.input} />
                     </View>
                 </View>
