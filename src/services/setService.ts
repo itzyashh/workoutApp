@@ -1,4 +1,4 @@
-import { saveSet } from '@/db/sets';
+import { deleteSet, saveSet } from '@/db/sets';
 import * as Crypto from 'expo-crypto';
 
 export const createSet = (exerciseId: string) => {
@@ -28,5 +28,11 @@ const isSetComplete = (set: ExerciseSet) => {
   };
 
 export const cleanSets = (sets: ExerciseSet[]) => {
-    return sets.filter(isSetComplete)
+
+    const completeSets = sets.filter(isSetComplete)
+    const incompleteSets = sets.filter(set => !isSetComplete(set))
+
+    incompleteSets.forEach(set => deleteSet(set.id))
+
+    return completeSets
 }
