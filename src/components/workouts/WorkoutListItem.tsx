@@ -16,7 +16,8 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
     const createdAt = dayjs(workout.createdAt)
     const formattedDate = createdAt.format('HH:mm dddd, DD MMM').toString()
 
-    const totalWeight = workout.exercises.reduce((prev, current) => {
+    const totalWeight = workout?.exercises?.reduce((prev, current) => {
+        console.log('current', current)
         const totalWeight = current.sets.reduce((prev, current) => {
             return prev + current.weight * current.reps
         }, 0)
@@ -46,7 +47,7 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
 
                     // find the best set a set where you lifted the most weight to find this we need to multiply the weight with the reps
                     // and find the highest number
-                    let bestSet = item.sets.reduce((prev, current) => {
+                    let bestSet = item?.sets?.reduce((prev, current) => {
 
                         if (!prev.weight || !current.weight) {
                             // if the weight is 0 || null we should select the set with the most reps

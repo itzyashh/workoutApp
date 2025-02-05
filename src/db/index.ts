@@ -1,88 +1,48 @@
 import * as SQLite from 'expo-sqlite';
 
-let db: SQLite.SQLiteDatabase | null = null;
+let db: SQLite.SQLiteDatabase | null = null
 
-export const dbName = 'workoutTracker.db'
+export const dbName = 'workoutDb.db'
 
-const createWorkoutTableQuery = `
-  CREATE TABLE IF NOT EXISTS workouts (
+const createWorkoutsTableQuery = `
+CREATE TABLE IF NOT EXISTS workouts (
     id TEXT PRIMARY KEY,
-    created_at TEXT NOT NULL
+    created_at TEXT NOT NULL,
     finished_at TEXT
-  );
-`;
+);
+`
+const createExercisesTableQuery = `
+CREATE TABLE IF NOT EXISTS exercises (
+    id TEXT PRIMARY KEY,
+    workout_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    FOREIGN KEY (workout_id) REFERENCES workouts(id)
+);
+`
+const createSetsTableQuery = `
+CREATE TABLE IF NOT EXISTS sets (
+    id TEXT PRIMARY KEY,
+    exercise_id TEXT NOT NULL,
+    reps INTEGER,
+    weight REAL,
+    one_rm REAL,
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+);
+`
 
-export const createExercisesTableQuery = `
-  CREATE TABLE IF NOT EXISTS exercises (
-    id TEXT PRIMARY KEY, 
-    workout_id TEXT, 
-    name TEXT, 
-    FOREIGN KEY (workout_id) REFERENCES workouts (id)
-  );`;
 
-  export const getDB = async (): Promise<SQLite.SQLiteDatabase> => {
-    if (db) return db;
-  
-    db = await SQLite.openDatabaseAsync('workoutTracker.db');
-    
-    await db.execAsync(createWorkoutsTableQuery);
-    await db.execAsync(createExercisesTableQuery); // <- add this
-  
-    return db;
-  };
 
-  export const saveExercise = async (exercise: Exercise) => {
-    try {
-      const db = await getDB();
-      await db.runAsync(
-        'INSERT INTO exercises (id, workout_id, name) VALUES (?, ?, ?);',
-        exercise.id,
-        exercise.workoutId,
-        exercise.name
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+export const getDB = async () => {
+    if (db) return db
 
-  const parseExercise = (exercise: DbExercise): Exercise => {
-    return {
-      id: exercise.id,
-      workoutId: exercise.workout_id,
-      name: exercise.name,
-    };
-  };
-  
-  export const getExercises = async (workout_id: string): Promise<Exercise[]> => {
-    try {
-      const db = await getDB();
-      const exercises = await db.getAllAsync<DbExercise>(
-        'SELECT * FROM exercises WHERE workout_id = ?;',
-        workout_id
-      );
-      return exercises.map(parseExercise);
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
+    db = await SQLite.openDatabaseAsync(dbName)
 
-  export const fetchWorkoutExercises = async (
-    workout: Workout
-  ): Promise<WorkoutWithExercises> => {
-    const exercises = await getExercises(workout.id);
-  
-    return {
-      ...workout,
-      exercises: exercises,
-    };
-  };
+    await db.withTransactionAsync(async () => {
+        if (!db) return
+        await db?.execAsync(createWorkoutsTableQuery)
+        await db?.execAsync(createExercisesTableQuery)
+        await db?.execAsync(createSetsTableQuery)
+    })
+    return db
 
-  export const deleteExercise = async (id: string) => {
-    try {
-      const db = await getDB();
-      await db.runAsync('DELETE FROM exercises WHERE id = ?;', id);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+}

@@ -1,3 +1,4 @@
+import { deleteSet, saveSet } from '@/db/sets';
 import * as Crypto from 'expo-crypto';
 
 export const createSet = (exerciseId: string) => {
@@ -5,6 +6,7 @@ export const createSet = (exerciseId: string) => {
         id: Crypto.randomUUID(),
         exerciseId,
     }
+    saveSet(newSet)
     return newSet
 }
 
@@ -17,6 +19,7 @@ export const updateSet = (set: ExerciseSet, newChanges: Pick<ExerciseSet, 'reps'
     if (updatedSet.reps !== undefined && updatedSet.weight !== undefined && updatedSet.weight !== null) {
         updatedSet.oneRM = (100 * updatedSet.weight) / (101.3 - 2.67123 * updatedSet.reps)
     } 
+    saveSet(updatedSet)
     return updatedSet
 }
 
@@ -25,5 +28,11 @@ const isSetComplete = (set: ExerciseSet) => {
   };
 
 export const cleanSets = (sets: ExerciseSet[]) => {
-    return sets.filter(isSetComplete)
+
+    const completeSets = sets.filter(isSetComplete)
+    const incompleteSets = sets.filter(set => !isSetComplete(set))
+
+    incompleteSets.forEach(set => deleteSet(set.id))
+
+    return completeSets
 }
