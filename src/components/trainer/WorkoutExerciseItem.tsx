@@ -13,7 +13,7 @@ type WorkoutExerciseItemProps = {
 }
 
 const WorkoutExerciseItem: FC<WorkoutExerciseItemProps> = ({exercise}) => {
-
+  console.log('exercise23', exercise)
   const addSet = useWorkoutStore(state => state.addSet)
 
   return (

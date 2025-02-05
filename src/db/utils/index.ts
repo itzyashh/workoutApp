@@ -1,4 +1,4 @@
-import { DbExercise, DbWorkout } from "@/types/db";
+import { DbExercise, DbExerciseSet, DbWorkout } from "@/types/db";
 
 export const parseWorkout = (workout: DbWorkout): Workout => {
     return {
@@ -13,5 +13,15 @@ export const parseExercise = (exercise: DbExercise): Exercise => {
         id: exercise.id,
         workoutId: exercise.workout_id,
         name: exercise.name
+    }
+}
+
+export const parseSet = (set: DbExerciseSet): ExerciseSet => {
+    return {
+        id: set.id,
+        exerciseId: set.exercise_id,
+        reps: set.reps ?? undefined,
+        weight: set.weight || null,
+        oneRM: set.one_rm || undefined
     }
 }

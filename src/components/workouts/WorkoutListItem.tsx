@@ -17,6 +17,7 @@ const WorkoutListItem:FC<WorkoutListItemProps> = ({workout}) => {
     const formattedDate = createdAt.format('HH:mm dddd, DD MMM').toString()
 
     const totalWeight = workout?.exercises?.reduce((prev, current) => {
+        console.log('current', current)
         const totalWeight = current.sets.reduce((prev, current) => {
             return prev + current.weight * current.reps
         }, 0)

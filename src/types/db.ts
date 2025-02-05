@@ -15,5 +15,5 @@ export type DbExerciseSet = {
     exercise_id: string
     reps?: number
     weight?: number | null
-    oneRM?: number |  null
+    one_rm?: number |  null
 }

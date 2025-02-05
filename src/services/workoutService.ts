@@ -1,5 +1,5 @@
 import * as Crypto from 'expo-crypto';
-import { cleanExercise } from './exerciseService';
+import { addSetsToExercise, cleanExercise } from './exerciseService';
 import { getCurrentWorkout, getLocalWorkouts, saveWorkout } from '@/db/workout';
 import { getExercises } from '@/db/exercises';
 
@@ -41,7 +41,7 @@ export const getCurrentWorkoutWithExercises = async (): Promise<WorkoutWithExerc
   const workout = await getCurrentWorkout()
   if (!workout) return null
   const exercises = await getExercises(workout.id)
-  const exercisesWithSets = exercises?.map((exercise) => ({ ...exercise, sets: [] }) as ExerciseWithSets) || []
+  const exercisesWithSets = await Promise.all(exercises?.map(addSetsToExercise) || [])
   return {
     ...workout,
     exercises: exercisesWithSets
@@ -54,7 +54,7 @@ export const getLocalWorkoutsWithExercises = async (): Promise<WorkoutWithExerci
     if (!workouts) return null
     const workoutsWithExercises = await Promise.all(workouts.map(async (workout) => {
       const exercises = await getExercises(workout.id)
-      const exercisesWithSets = exercises?.map((exercise) => ({ ...exercise, sets: [] }) as ExerciseWithSets) || []
+      const exercisesWithSets = await Promise.all(exercises?.map(addSetsToExercise) || [])
       return {
         ...workout,
         exercises: exercisesWithSets

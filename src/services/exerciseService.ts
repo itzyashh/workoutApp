@@ -1,6 +1,7 @@
 import * as Crypto from 'expo-crypto';
 import { cleanSets, createSet } from './setService';
 import { deleteExercise, saveExercise } from '@/db/exercises';
+import { getSets } from '@/db/sets';
 
 export const createExercise = (workoutId: string, name: string ) => {
   console.log('createExercise')
@@ -31,3 +32,11 @@ export const cleanExercise = (exercise: ExerciseWithSets) => {
       sets,
     };
   };
+
+  export const addSetsToExercise = async (exercise: Exercise) => {
+    const sets = await getSets(exercise.id)
+    return {
+      ...exercise,
+      sets: sets || []
+    }
+  }

@@ -19,6 +19,18 @@ CREATE TABLE IF NOT EXISTS exercises (
     FOREIGN KEY (workout_id) REFERENCES workouts(id)
 );
 `
+const createSetsTableQuery = `
+CREATE TABLE IF NOT EXISTS sets (
+    id TEXT PRIMARY KEY,
+    exercise_id TEXT NOT NULL,
+    reps INTEGER,
+    weight REAL,
+    one_rm REAL,
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+);
+`
+
+
 
 export const getDB = async () => {
     if (db) return db
@@ -29,6 +41,7 @@ export const getDB = async () => {
         if (!db) return
         await db?.execAsync(createWorkoutsTableQuery)
         await db?.execAsync(createExercisesTableQuery)
+        await db?.execAsync(createSetsTableQuery)
     })
     return db
 
