@@ -6,6 +6,7 @@ import CustomButton from '../general/CustomButton';
 import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated';
 import { useWorkoutStore } from '@/store';
 import { debounce } from 'lodash';
+import { deleteSet as deleteSetFromDB } from '@/db/sets';
 
 type SetItemProps = {
     index: number
@@ -37,13 +38,14 @@ const SetItem: FC<SetItemProps> = ({ index, set }) => {
 
     const handleDeleteSet = (id: string) => {
         deleteSet(id)
+        deleteSetFromDB(id)
     }
     console.log('set', set)
 
     const renderRightActions = () => {
         return (
             <CustomButton
-                onPress={() => deleteSet(set.id)}
+                onPress={() => handleDeleteSet(set.id)}
                 title='Delete'
                 type='link'
                 style={{ width: 'auto', padding: 5 }}

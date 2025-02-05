@@ -35,3 +35,13 @@ export const getSets = async (exerciseId: string) => {
         return []
     }
 }
+
+export const deleteSet = async (setId: string) => {
+    try {
+        const db = await getDB()
+        if (!db) return
+        await db.runAsync("DELETE FROM sets WHERE id = ?", setId)
+    } catch (error) {
+        console.error(error)
+    }
+}
